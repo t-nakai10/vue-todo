@@ -30,7 +30,7 @@
         // リストに追加していく.
         add: function (e) {
           this.items.push(this.addList);
-          this.clean();
+          this.addList = "";
         },
         // 変換時のエンターでもエンターイベント走るため,その対策のためのフラグ.
         checkFlg: function () {
@@ -50,8 +50,6 @@
           }
           // false に戻す.
           this.flg = false;
-        },
-        clean: function (e) {
         },
       }
     }
