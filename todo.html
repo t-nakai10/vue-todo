@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v属性</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <p>todo</p>
+    <ul v-for="item in items">
+      <li>{{ item }}</li>
+    </ul>
+    <p>{{ addList }}</p>
+    <input v-on:keyup.enter="enter" v-on:keypress="checkFlg" type="text" v-model="addList">
+    <button v-if="addList!=''" v-on:click="add">追加</button>
+  </div>
+  <script>
+    const appData = {
+      data() {
+        return {
+          items: [],
+          addList: "",
+          flg: false,
+        }
+      },
+      methods: {
+        // リストに追加していく.
+        add: function (e) {
+          this.items.push(this.addList);
+          this.clean();
+        },
+        // 変換時のエンターでもエンターイベント走るため,その対策のためのフラグ.
+        checkFlg: function () {
+          this.flg = true;
+        },
+        // エンター時のイベント
+        enter: function (e) {
+          // 変換時のエンターでは実行しない.
+          if (!this.flg) {
+            return;
+          }
+          // なにか入ってるときのみ発火.
+          // v-if でも良さげ.
+          if (this.addList !== "") {
+            this.add();
+            this.addList = "";
+          }
+          // false に戻す.
+          this.flg = false;
+        },
+        clean: function (e) {
+        },
+      }
+    }
+    Vue.createApp(appData).mount('#app');
+  </script>
+</body>
+</html>
